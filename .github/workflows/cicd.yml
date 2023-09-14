@@ -24,7 +24,7 @@ jobs:
           tags: aplicaciones9/cicd-pipeline:latest
   deploy:
     name: CD Pipeline
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Pull Docker Image
