@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: CI Pipeline
     runs-on: ubuntu-latest
 
     steps:
@@ -21,3 +22,14 @@ jobs:
           context: .
           push: true
           tags: aplicaciones9/cicd-pipeline:latest
+  deploy:
+    name: CD Pipeline
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: "Pull Docker Image"
+        run: docker pull aplicaciones9/cicd-pipeline:latest
+      - name: "Delete Old Docker Container"
+        run: sudo docker rm -f cicd-pipeline-container || true
+      - name: "Run Docker Container"
+        run: sudo docker run -d -p 8080:8080 --name cicd-pipeline-container aplicaciones9/cicd-pipeline
